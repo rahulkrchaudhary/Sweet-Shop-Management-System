@@ -23,5 +23,7 @@ public class User {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    private USER_ROLE role;
 }
 
