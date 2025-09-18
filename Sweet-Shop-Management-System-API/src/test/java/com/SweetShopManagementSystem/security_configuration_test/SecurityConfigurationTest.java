@@ -25,4 +25,9 @@ public class SecurityConfigurationTest {
         mockMvc.perform(get("/api/auth/test"))
                 .andExpect(status().isOk());
     }
+    @Test
+    void testAuthWithoutAuthentication2() throws Exception {
+        mockMvc.perform(get("/api/auth-endpoint"))
+                .andExpect(status().isUnauthorized());
+    }
 }
