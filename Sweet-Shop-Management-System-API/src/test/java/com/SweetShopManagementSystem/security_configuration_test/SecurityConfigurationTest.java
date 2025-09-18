@@ -1,5 +1,6 @@
 package com.SweetShopManagementSystem.security_configuration_test;
 
+import com.SweetShopManagementSystem.security_configuration.JWTProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SecurityConfigurationTest {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    JWTProvider jwtProvider;
 
     @Test
     void testAuthWithoutAuthentication() throws Exception {
@@ -30,4 +33,10 @@ public class SecurityConfigurationTest {
         mockMvc.perform(get("/api/auth-endpoint"))
                 .andExpect(status().isUnauthorized());
     }
+//    @Test
+//    void validTokenShouldAllowAccessToProtectedEndpoint() throws Exception {
+//        String token = jwtProvider.generateToken("alice", List.of("Admin"));
+//        mockMvc.perform(get("/api/secure-endpoint").header("Authorization", "Bearer " + token))
+//                .andExpect(status().isOk());
+//    }
 }
