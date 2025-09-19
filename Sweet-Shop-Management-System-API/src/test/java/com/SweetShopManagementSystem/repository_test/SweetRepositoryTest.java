@@ -1,10 +1,16 @@
 package com.SweetShopManagementSystem.repository_test;
 
+import com.SweetShopManagementSystem.model.Category;
+import com.SweetShopManagementSystem.model.Sweet;
+import com.SweetShopManagementSystem.repository.CategoryRepository;
+import com.SweetShopManagementSystem.repository.SweetRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,12 +20,19 @@ public class SweetRepositoryTest {
 
     @Autowired
     private SweetRepository sweetRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     @DisplayName("findByNameContainingIgnoreCase should return matching sweets")
     void findByNameContainingIgnoreCase_returnsMatchingSweets() {
-        Sweet s1 = new Sweet(null, "Ladoo", "Traditional", 50.0, "Tasty ladoo");
-        Sweet s2 = new Sweet(null, "Gulab Jamun", "Traditional", 70.0, "Soft sweet");
+        Category traditionalCategory = new Category(null, "Traditional");
+        categoryRepository.save(traditionalCategory);
+
+
+        Sweet s1 = new Sweet(null, "Ladoo", traditionalCategory, 50.0, 5);
+        Sweet s2 = new Sweet(null, "Gulab Jamun", traditionalCategory, 70.0, 6);
+
         sweetRepository.save(s1);
         sweetRepository.save(s2);
 
@@ -35,22 +48,35 @@ public class SweetRepositoryTest {
     @Test
     @DisplayName("findByCategoryIgnoreCase should return sweets of a category (case-insensitive)")
     void findByCategoryIgnoreCase_returnsMatchingSweets() {
-        Sweet s1 = new Sweet(null, "Ladoo", "Traditional", 50.0, "Tasty ladoo");
-        Sweet s2 = new Sweet(null, "Chocolate", "Modern", 120.0, "Choco");
+        Category traditionalCategory = new Category(null, "Traditional");
+        categoryRepository.save(traditionalCategory);
+
+        Category modernCategory = new Category(null, "Modern");
+        categoryRepository.save(modernCategory);
+
+        Sweet s1 = new Sweet(null, "Ladoo",  traditionalCategory, 50.0, 6);
+        Sweet s2 = new Sweet(null, "Chocolate", modernCategory, 120.0, 5);
         sweetRepository.save(s1);
         sweetRepository.save(s2);
 
-        List<Sweet> result = sweetRepository.findByCategoryIgnoreCase("traditional");
+        List<Sweet> result = sweetRepository.findByCategory(traditionalCategory);
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getCategory()).isEqualTo("Traditional");
+        assertThat(result.get(0).getCategory()).isEqualTo(traditionalCategory);
     }
 
     @Test
     @DisplayName("findByPriceBetween should return sweets within the given range")
     void findByPriceBetween_returnsMatchingSweets() {
-        Sweet s1 = new Sweet(null, "Ladoo", "Traditional", 50.0, "Tasty");
-        Sweet s2 = new Sweet(null, "Barfi", "Milk", 100.0, "Sweet");
-        Sweet s3 = new Sweet(null, "Premium", "Luxury", 500.0, "Expensive");
+        Category traditionalCategory = new Category(null, "Traditional");
+        categoryRepository.save(traditionalCategory);
+        Category milkCategory = new Category(null, "Milk");
+        categoryRepository.save(milkCategory);
+        Category luxuryCategory = new Category(null, "Luxury");
+        categoryRepository.save(luxuryCategory);
+
+        Sweet s1 = new Sweet(null, "Ladoo", traditionalCategory, 50.0, 4);
+        Sweet s2 = new Sweet(null, "Barfi", milkCategory, 100.0, 5);
+        Sweet s3 = new Sweet(null, "Premium", luxuryCategory, 500.0, 6);
         sweetRepository.save(s1);
         sweetRepository.save(s2);
         sweetRepository.save(s3);
