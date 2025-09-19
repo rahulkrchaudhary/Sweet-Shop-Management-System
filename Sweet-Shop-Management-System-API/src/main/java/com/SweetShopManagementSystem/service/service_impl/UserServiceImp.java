@@ -33,7 +33,7 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public AuthResponse createUser(User user) throws Exception {
+    public AuthResponse registerUser(User user) throws Exception {
         Optional<User> isEmailExit = userRepository.findByEmail(user.getEmail());
         if (isEmailExit.isPresent()) {
             throw new EmailAlreadyUsedException("email is already used with another account");
