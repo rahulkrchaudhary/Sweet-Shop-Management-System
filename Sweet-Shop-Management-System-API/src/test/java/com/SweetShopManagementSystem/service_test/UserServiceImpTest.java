@@ -47,7 +47,6 @@ class UserServiceImpTest {
 
     @AfterEach
     void tearDown() {
-        // clear the SecurityContext so tests don't interfere with each other
         SecurityContextHolder.clearContext();
     }
 

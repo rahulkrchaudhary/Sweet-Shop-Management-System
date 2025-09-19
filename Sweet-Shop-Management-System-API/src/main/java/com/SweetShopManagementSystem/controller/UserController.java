@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) throws Exception {
         AuthResponse authResponse = userService.login(loginRequest);
-        return new ResponseEntity<>(authResponse, HttpStatus.OK); // ✅ 200 is correct for login
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 }
 
