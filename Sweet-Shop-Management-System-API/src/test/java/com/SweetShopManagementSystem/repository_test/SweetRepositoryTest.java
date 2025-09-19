@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -22,6 +24,8 @@ public class SweetRepositoryTest {
     private SweetRepository sweetRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private TestEntityManager entityManager;
 
     @Test
     @DisplayName("findByNameContainingIgnoreCase should return matching sweets")
@@ -83,6 +87,25 @@ public class SweetRepositoryTest {
 
         List<Sweet> result = sweetRepository.findByPriceBetween(30.0, 150.0);
         assertThat(result).hasSize(2).extracting("name").containsExactlyInAnyOrder("Ladoo", "Barfi");
+    }
+
+    @Test
+    void testSearchByNameAndCategoryAndPriceRange() {
+        Category category = new Category();
+        category.setName("Traditional");
+
+        Sweet sweet1 = new Sweet(null, "Kaju Katli", category, 100.0, 10);
+        Sweet sweet2 = new Sweet(null, "Gulab Jamun", category, 50.0, 20);
+
+        entityManager.persist(category);
+        entityManager.persist(sweet1);
+        entityManager.persist(sweet2);
+        entityManager.flush();
+
+        List<Sweet> results = sweetRepository.searchSweets("Kaju", category, 80.0, 120.0);
+
+        assertEquals(1, results.size());
+        assertEquals("Kaju Katli", results.get(0).getName());
     }
 
     @Test
