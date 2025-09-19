@@ -75,7 +75,7 @@ class UserServiceImpTest {
         when(userRepository.save(any(User.class))).thenReturn(savedFromRepo);
         when(jwtProvider.generateToken(any(Authentication.class))).thenReturn("jwt-token");
 
-        AuthResponse resp = userServiceImp.createUser(input);
+        AuthResponse resp = userServiceImp.registerUser(input);
 
         assertNotNull(resp);
         assertEquals("jwt-token", resp.getJwt());
@@ -103,8 +103,8 @@ class UserServiceImpTest {
 
         when(userRepository.findByEmail("duplicate@example.com")).thenReturn(Optional.of(new User()));
 
-        Exception ex = assertThrows(Exception.class, () -> userServiceImp.createUser(input));
-        assertEquals("email is alaready used with another account", ex.getMessage());
+        Exception ex = assertThrows(Exception.class, () -> userServiceImp.registerUser(input));
+        assertEquals("email is already used with another account", ex.getMessage());
 
         verify(userRepository, times(1)).findByEmail("duplicate@example.com");
         verify(userRepository, never()).save(any());
