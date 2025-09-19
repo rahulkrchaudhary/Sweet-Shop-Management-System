@@ -9,7 +9,7 @@ import java.util.List;
 public interface SweetService {
     Sweet addSweet(SweetRequest sweetRequest);
     List<Sweet> getAllSweets();
-    List<Sweet> searchSweets(String name, Category category, double minPrice, double maxPrice);
+    List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice);
     Sweet updateSweet(Long id, SweetRequest sweetRequest);
     void deleteSweet(Long id);
 }

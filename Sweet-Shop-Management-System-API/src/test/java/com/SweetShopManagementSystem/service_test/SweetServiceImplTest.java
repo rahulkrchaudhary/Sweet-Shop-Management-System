@@ -66,7 +66,7 @@ public class SweetServiceImplTest {
     }
 
     @Test
-    void getAllSweets_returnsList() {
+    void test_getAllSweets() {
         Sweet s1 = new Sweet(); s1.setId(1L); s1.setName("Ladoo");
         Sweet s2 = new Sweet(); s2.setId(2L); s2.setName("Barfi");
         when(sweetRepository.findAll()).thenReturn(Arrays.asList(s1, s2));
@@ -77,28 +77,22 @@ public class SweetServiceImplTest {
     }
 
     @Test
-    void searchSweets_byName_callsRepo() {
-        Sweet s = new Sweet(); s.setName("Gulab Jamun");
-        when(sweetRepository.findByNameContainingIgnoreCase("Jamun")).thenReturn(List.of(s));
+    void test_searchSweetsByNameCategoryAndPrice() {
+        Category category = new Category(1L, "Traditional");
+        Sweet sweet = new Sweet(1L, "Kaju Katli", category, 100.0, 10);
 
-        List<Sweet> r = sweetService.searchSweets("Jamun", null, 0, 0);
-        assertEquals(1, r.size());
-        assertEquals("Gulab Jamun", r.get(0).getName());
-        verify(sweetRepository).findByNameContainingIgnoreCase("Jamun");
+        when(categoryRepository.findByName("Traditional")).thenReturn(Optional.of(category));
+        when(sweetRepository.searchSweets("Kaju", category, 80.0, 120.0))
+                .thenReturn(List.of(sweet));
+
+        List<Sweet> results = sweetService.searchSweets("Kaju", "Traditional", 80.0, 120.0);
+
+        assertEquals(1, results.size());
+        assertEquals("Kaju Katli", results.get(0).getName());
     }
 
     @Test
-    void searchSweets_byPriceRange_callsRepo() {
-        Sweet s = new Sweet(); s.setName("Barfi"); s.setPrice(100.0);
-        when(sweetRepository.findByPriceBetween(50.0, 150.0)).thenReturn(List.of(s));
-
-        List<Sweet> r = sweetService.searchSweets(null, null, 50.0, 150.0);
-        assertEquals(1, r.size());
-        verify(sweetRepository).findByPriceBetween(50.0, 150.0);
-    }
-
-    @Test
-    void updateSweet_existing_returnsUpdated() {
+    void test_updateSweet() {
         Long id = 5L;
         Sweet existing = new Sweet();
         existing.setId(id);
@@ -138,14 +132,14 @@ public class SweetServiceImplTest {
 
 
     @Test
-    void updateSweet_missing_throws() {
+    void test_updateSweet_missing() {
         when(sweetRepository.findById(99L)).thenReturn(Optional.empty());
         SweetRequest req = new SweetRequest();
         assertThrows(RuntimeException.class, () -> sweetService.updateSweet(99L, req));
     }
 
     @Test
-    void deleteSweet_callsRepository() {
+    void test_deleteSweet() {
         Long id = 3L;
         doNothing().when(sweetRepository).deleteById(id);
 

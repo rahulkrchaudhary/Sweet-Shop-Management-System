@@ -46,13 +46,25 @@ public class SweetServiceImpl implements SweetService {
         return sweetRepository.findAll();
     }
 
+//    @Override
+//    public List<Sweet> searchSweets(String name, Category category, double minPrice, double maxPrice) {
+//        if (name != null) return sweetRepository.findByNameContainingIgnoreCase(name);
+//        if (category != null) return sweetRepository.findByCategory(category);
+//        if ((Double)minPrice != null && (Double)maxPrice != null) return sweetRepository.findByPriceBetween(minPrice, maxPrice);
+//        return sweetRepository.findAll();
+//    }
+
     @Override
-    public List<Sweet> searchSweets(String name, Category category, double minPrice, double maxPrice) {
-        if (name != null) return sweetRepository.findByNameContainingIgnoreCase(name);
-        if (category != null) return sweetRepository.findByCategory(category);
-        if ((Double)minPrice != null && (Double)maxPrice != null) return sweetRepository.findByPriceBetween(minPrice, maxPrice);
-        return sweetRepository.findAll();
+    public List<Sweet> searchSweets(String name, String categoryName, Double minPrice, Double maxPrice) {
+        Category searchCategory = null;
+        if (categoryName != null) {
+            searchCategory = categoryRepository.findByName(categoryName)
+                    .orElse(null);
+        }
+        return sweetRepository.searchSweets(name, searchCategory, minPrice, maxPrice);
     }
+
+
 
     @Override
     public Sweet updateSweet(Long id, SweetRequest sweetRequest) {
