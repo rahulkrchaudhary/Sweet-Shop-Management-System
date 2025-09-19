@@ -1,5 +1,6 @@
 package com.SweetShopManagementSystem.controller_test;
 
+import com.SweetShopManagementSystem.controller.UserController;
 import com.SweetShopManagementSystem.dto.AuthResponse;
 import com.SweetShopManagementSystem.dto.LoginRequest;
 import com.SweetShopManagementSystem.model.USER_ROLE;
@@ -9,7 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+//import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,7 +21,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@WebMvcTest(UserController.class)
+@WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class UserControllerTest {
 
     @Autowired
@@ -70,7 +74,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.jwt").value("mock-jwt"))
                 .andExpect(jsonPath("$.message").value("Login success"))
                 .andExpect(jsonPath("$.role").value("CUSTOMER"));
