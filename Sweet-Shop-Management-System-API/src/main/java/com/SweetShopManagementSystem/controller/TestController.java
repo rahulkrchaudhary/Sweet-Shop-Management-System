@@ -11,5 +11,6 @@ public class TestController {
     @GetMapping("/test")
     public ResponseEntity<String> testPermitAll() {
         return ResponseEntity.ok("ok");
+
     }
 }
