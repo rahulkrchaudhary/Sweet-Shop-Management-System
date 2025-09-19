@@ -25,7 +25,7 @@ public class SweetRepositoryTest {
 
     @Test
     @DisplayName("findByNameContainingIgnoreCase should return matching sweets")
-    void findByNameContainingIgnoreCase_returnsMatchingSweets() {
+    void test_findByNameContainingIgnoreCase() {
         Category traditionalCategory = new Category(null, "Traditional");
         categoryRepository.save(traditionalCategory);
 
@@ -47,7 +47,7 @@ public class SweetRepositoryTest {
 
     @Test
     @DisplayName("findByCategoryIgnoreCase should return sweets of a category (case-insensitive)")
-    void findByCategoryIgnoreCase_returnsMatchingSweets() {
+    void test_findByCategory() {
         Category traditionalCategory = new Category(null, "Traditional");
         categoryRepository.save(traditionalCategory);
 
@@ -66,7 +66,7 @@ public class SweetRepositoryTest {
 
     @Test
     @DisplayName("findByPriceBetween should return sweets within the given range")
-    void findByPriceBetween_returnsMatchingSweets() {
+    void test_findByPriceBetweenGivenPrice() {
         Category traditionalCategory = new Category(null, "Traditional");
         categoryRepository.save(traditionalCategory);
         Category milkCategory = new Category(null, "Milk");
@@ -87,7 +87,7 @@ public class SweetRepositoryTest {
 
     @Test
     @DisplayName("no results returns empty list")
-    void noResults_returnsEmptyList() {
+    void test_noResults() {
         List<Sweet> result = sweetRepository.findByNameContainingIgnoreCase("does-not-exist");
         assertThat(result).isEmpty();
     }
