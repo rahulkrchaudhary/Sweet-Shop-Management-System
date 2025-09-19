@@ -1,5 +1,6 @@
 package com.SweetShopManagementSystem.controller_test;
 
+import com.SweetShopManagementSystem.controller.SweetController;
 import com.SweetShopManagementSystem.dto.SweetRequest;
 import com.SweetShopManagementSystem.model.Category;
 import com.SweetShopManagementSystem.model.Sweet;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(SweetController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class SweetControllerTest {
 
     @Autowired
@@ -116,7 +119,8 @@ class SweetControllerTest {
         Sweet updated = new Sweet();
         updated.setId(id);
         updated.setName("New Name");
-        updated.setCategory("Modern");
+        Category category = new Category(null, "Modern");
+        updated.setCategory(category);
         updated.setPrice(120.0);
         updated.setQuantity(5);
 
@@ -146,10 +150,8 @@ class SweetControllerTest {
     @WithMockUser(roles = {"USER"})
     void test_deleteSweet_asUser() throws Exception {
         Long id = 6L;
-        // no need to stub service; controller should block before calling service
         mockMvc.perform(delete("/api/sweets/{id}", id))
                 .andExpect(status().isForbidden());
-        // ensure service.deleteSweet was never called
         Mockito.verify(sweetService, Mockito.never()).deleteSweet(anyLong());
     }
 }
