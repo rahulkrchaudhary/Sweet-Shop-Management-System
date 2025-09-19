@@ -2,6 +2,7 @@ package com.SweetShopManagementSystem.service.service_impl;
 
 import com.SweetShopManagementSystem.dto.AuthResponse;
 import com.SweetShopManagementSystem.dto.LoginRequest;
+import com.SweetShopManagementSystem.exception.EmailAlreadyUsedException;
 import com.SweetShopManagementSystem.model.USER_ROLE;
 import com.SweetShopManagementSystem.model.User;
 import com.SweetShopManagementSystem.repository.UserRepository;
@@ -35,7 +36,7 @@ public class UserServiceImp implements UserService {
     public AuthResponse createUser(User user) throws Exception {
         Optional<User> isEmailExit = userRepository.findByEmail(user.getEmail());
         if (isEmailExit.isPresent()) {
-            throw new Exception("email is alaready used with another account");
+            throw new EmailAlreadyUsedException("email is already used with another account");
         }
 
         User newUser = new User();
