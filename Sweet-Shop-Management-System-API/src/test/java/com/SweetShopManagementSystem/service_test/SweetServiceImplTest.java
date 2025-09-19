@@ -1,9 +1,11 @@
 package com.SweetShopManagementSystem.service_test;
 
+import com.SweetShopManagementSystem.dto.SweetRequest;
 import com.SweetShopManagementSystem.model.Category;
 import com.SweetShopManagementSystem.model.Sweet;
 import com.SweetShopManagementSystem.repository.CategoryRepository;
 import com.SweetShopManagementSystem.repository.SweetRepository;
+import com.SweetShopManagementSystem.service.service_impl.SweetServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class SweetServiceImplTest {
     @Mock
     private SweetRepository sweetRepository;
-    @Autowired
+    @Mock
     private CategoryRepository categoryRepository;
 
     @InjectMocks
@@ -33,18 +36,17 @@ public class SweetServiceImplTest {
     void test_addSweet() {
         SweetRequest req = new SweetRequest();
         req.setName("Ladoo");
-
-        Category traditionalCategory = new Category(null, "Traditional");
-        Category savedCategory =categoryRepository.save(traditionalCategory);
-        req.setCategory(savedCategory);
-
+        req.setCategory("Traditional");
         req.setPrice(50.0);
         req.setQuantity(10);
 
         Sweet saved = new Sweet();
         saved.setId(1L);
         saved.setName("Ladoo");
-        saved.setCategory(req.getCategory());
+        Category category = new Category();
+        category.setName("Traditional");
+        Category savedCategory = categoryRepository.save(category);
+        saved.setCategory(savedCategory);
         saved.setPrice(50.0);
         saved.setQuantity(10);
 
@@ -98,31 +100,42 @@ public class SweetServiceImplTest {
     @Test
     void updateSweet_existing_returnsUpdated() {
         Long id = 5L;
-        Sweet existing = new Sweet(); existing.setId(id); existing.setName("Old");
+        Sweet existing = new Sweet();
+        existing.setId(id);
+        existing.setName("Old");
+        existing.setCategory(new Category(1L, "OldCat"));
+
         when(sweetRepository.findById(id)).thenReturn(Optional.of(existing));
 
         SweetRequest req = new SweetRequest();
         req.setName("New");
-        Category category = new Category(null, "Traditional");
-        Category savedCategory = categoryRepository.save(category);
-        req.setCategory(savedCategory);
+        req.setCategory("Traditional");
         req.setPrice(80.0);
         req.setQuantity(5);
+
+        Category savedCategory = new Category(2L, "TRADITIONAL");
+        when(categoryRepository.findByName("TRADITIONAL")).thenReturn(Optional.of(savedCategory));
 
         Sweet saved = new Sweet();
         saved.setId(id);
         saved.setName("New");
-        saved.setCategory(req.getCategory());
+        saved.setCategory(savedCategory);
         saved.setPrice(80.0);
+        saved.setQuantity(5);
 
         when(sweetRepository.save(any(Sweet.class))).thenReturn(saved);
 
         Sweet result = sweetService.updateSweet(id, req);
 
         assertEquals("New", result.getName());
+        assertEquals("TRADITIONAL", result.getCategory().getName());
+        assertEquals(80.0, result.getPrice());
+        assertEquals(5, result.getQuantity());
+
         verify(sweetRepository).findById(id);
         verify(sweetRepository).save(any(Sweet.class));
     }
+
 
     @Test
     void updateSweet_missing_throws() {
