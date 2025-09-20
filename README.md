@@ -20,26 +20,21 @@ A full-stack web application for managing a sweet shop with features for custome
 
 ## 🎯 Overview
 
-The Sweet Shop Management System is a modern web application that allows customers to browse and purchase sweets while providing administrators with powerful inventory management tools. The system features secure authentication, real-time inventory tracking, and a responsive user interface.
+The Sweet Shop Management System is a modern web application that allows to browse and purchase sweets while providing administrators with powerful inventory management tools. The system features secure authentication, real-time inventory tracking, and a responsive user interface.
 
 ## ✨ Features
 
-### 👥 For Customers
-- **User Registration & Authentication** - Secure account creation and login
+- **User Registration & Authentication** -Secure account creation and login
 - **Sweet Catalog Browsing** - View all available sweets with details
 - **Advanced Search & Filtering** - Find sweets by name, category, and price range
 - **Shopping Cart Management** - Add items, modify quantities, and checkout
 - **Real-time Stock Updates** - See current availability and low stock warnings
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
-
-### 🔧 For Administrators
 - **Inventory Management** - Add, edit, and delete sweet products
 - **Stock Restocking** - Easily update inventory quantities
 - **User Management** - View and manage customer accounts
 - **Sales Analytics** - Track purchases and inventory movements
 - **Admin Dashboard** - Comprehensive overview of shop operations
-
-### 🔒 Security Features
 - **JWT Authentication** - Secure token-based authentication
 - **Role-based Access Control** - Separate permissions for customers and admins
 - **CORS Configuration** - Secure cross-origin resource sharing
@@ -69,6 +64,7 @@ The Sweet Shop Management System is a modern web application that allows custome
 
 ### Development Tools
 - **VS Code** - Primary IDE
+- **IntelliJ IDEA** 
 - **Git** - Version control
 - **GitHub** - Repository hosting
 - **Postman** - API testing
@@ -147,13 +143,13 @@ cd Sweet-Shop-Management-System
 
 1. **Install MySQL** and create a new database:
 ```sql
-CREATE DATABASE SweetShopManagementSystem;
+CREATE DATABASE database_name;
 ```
 
 2. **Create a MySQL user** (optional but recommended):
 ```sql
 CREATE USER 'sweetshop'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON SweetShopManagementSystem.* TO 'sweetshop'@'localhost';
+GRANT ALL PRIVILEGES ON database_name.* TO 'sweetshop'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -167,8 +163,8 @@ cd Sweet-Shop-Management-System-API
 2. **Create environment configuration:**
 Create a `.env` file in the backend root directory:
 ```properties
-DATASOURCE_URL=jdbc:mysql://localhost:3306/SweetShopManagementSystem
-DATASOURCE_USER=sweetshop
+DATASOURCE_URL=database_url
+DATASOURCE_USER=database_user
 DATASOURCE_PASSWORD=your_password
 FRONTED_URL=http://localhost:3000
 ```
@@ -275,6 +271,8 @@ POST /api/sweets/1/purchase
 
 ### Home Page
 ![Home Page](https://via.placeholder.com/800x500/4ECDC4/FFFFFF?text=Home+Page+-+Login+%26+Registration)
+<img width="1920" height="1046" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/ff8b76c9-948f-4927-883d-a6882635a942" />
+
 
 *The landing page where users can login or register for new accounts*
 
@@ -300,7 +298,7 @@ POST /api/sweets/1/purchase
 
 ## 🤖 My AI Usage
 
-Throughout the development of this Sweet Shop Management System, I extensively utilized various AI tools to enhance productivity, solve problems, and improve code quality. Here's a detailed breakdown of how AI impacted my development workflow:
+Throughout the development, I extensively utilized various AI tools to enhance productivity, solve problems, and improve code quality. Here's a detailed breakdown of how AI impacted my development workflow:
 
 ### AI Tools Used
 
@@ -332,26 +330,18 @@ Throughout the development of this Sweet Shop Management System, I extensively u
   - `SweetCard.js` - Product display components with interactive features
   - `SweetForm.js` - Forms for adding and editing products
   - `Cart.js` - Shopping cart with complex state management
-  - `RestockModal.js` - Admin inventory management interface
+  - `RestockModal.js` - Admin inventory management interface etc.
 - **CSS Styling**: Copilot helped create responsive CSS with modern design patterns
 - **State Management**: Assisted in implementing Context API for authentication and cart state
 - **API Integration**: Generated Axios service functions for backend communication
-
-#### 🛠 **Backend Development (GitHub Copilot)**
-- **Spring Boot Configuration**: Auto-generated security configurations and JWT handling
-- **Controller Classes**: Created REST controller methods with proper annotations
-- **Service Layer Logic**: Implemented business logic with error handling
-- **Repository Interfaces**: Generated JPA repository methods and custom queries
 
 #### 🐛 **Debugging & Problem Solving (ChatGPT & Copilot)**
 - **Error Resolution**: Both tools helped identify and fix compilation errors, runtime exceptions, and logical bugs
 - **Code Optimization**: Suggested performance improvements and cleaner code patterns
 - **Best Practices**: Ensured adherence to Spring Boot and React best practices
 
-#### 🔧 **DevOps & Configuration (ChatGPT)**
-- **Environment Setup**: Guided through proper configuration of development environments
-- **Git Management**: Helped create comprehensive `.gitignore` files and repository structure
-- **Deployment Planning**: Discussed production deployment strategies and configurations
+#### **Used Copilot to create this README.md file. I then customized and refined it to better explain the project’s structure, features, and usage.**
+ 
 
 ### Impact on Development Workflow
 
@@ -381,35 +371,3 @@ The integration of AI tools into my development workflow was transformative. Rat
 5. **Better Documentation**: AI helped maintain comprehensive documentation throughout development
 
 The key to successful AI usage was maintaining a balance - using AI for acceleration and learning while ensuring I understood every piece of generated code and made thoughtful architectural decisions. This approach resulted in a robust, well-tested, and maintainable application that demonstrates both technical proficiency and effective AI collaboration.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Development Guidelines
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## 📞 Contact
-
-**Rahul Kumar Chaudhary**
-- GitHub: [@rahulkrchaudhary](https://github.com/rahulkrchaudhary)
-- Email: rahulkrchaudhary@example.com
-
-## 🙏 Acknowledgments
-
-- Spring Boot community for excellent documentation
-- React team for the powerful frontend framework
-- AI tools (ChatGPT, GitHub Copilot) for development assistance
-- Open source community for inspiration and resources
-
----
-
-⭐ **Star this repository if you found it helpful!**
