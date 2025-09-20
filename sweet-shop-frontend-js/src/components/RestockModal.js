@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import './RestockModal.css';
 
 const RestockModal = ({ sweet, onRestock, onCancel, isLoading }) => {
-  const [quantity, setQuantity] = useState(sweet.quantity);
+  const [additionalQuantity, setAdditionalQuantity] = useState(10);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (quantity < 0) {
-      alert('Quantity cannot be negative');
+    if (additionalQuantity <= 0) {
+      alert('Additional quantity must be greater than 0');
       return;
     }
-    onRestock(sweet.id, quantity);
+    onRestock(sweet.id, additionalQuantity);
   };
 
   return (
@@ -30,42 +30,43 @@ const RestockModal = ({ sweet, onRestock, onCancel, isLoading }) => {
         
         <form onSubmit={handleSubmit} className="restock-form">
           <div className="form-group">
-            <label>New Stock Quantity:</label>
+            <label>Additional Stock to Add:</label>
             <input
               type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value) || 0)}
+              value={additionalQuantity}
+              onChange={(e) => setAdditionalQuantity(parseInt(e.target.value) || 0)}
               required
               disabled={isLoading}
-              min="0"
-              placeholder="Enter new quantity"
+              min="1"
+              placeholder="Enter quantity to add"
             />
+            <small>New total will be: {sweet.quantity + additionalQuantity} units</small>
           </div>
           
           <div className="quantity-helpers">
             <button 
               type="button" 
-              onClick={() => setQuantity(prev => prev + 10)}
+              onClick={() => setAdditionalQuantity(10)}
               disabled={isLoading}
               className="helper-btn"
             >
-              +10
+              Add 10
             </button>
             <button 
               type="button" 
-              onClick={() => setQuantity(prev => prev + 50)}
+              onClick={() => setAdditionalQuantity(50)}
               disabled={isLoading}
               className="helper-btn"
             >
-              +50
+              Add 50
             </button>
             <button 
               type="button" 
-              onClick={() => setQuantity(prev => prev + 100)}
+              onClick={() => setAdditionalQuantity(100)}
               disabled={isLoading}
               className="helper-btn"
             >
-              +100
+              Add 100
             </button>
           </div>
           
@@ -74,7 +75,7 @@ const RestockModal = ({ sweet, onRestock, onCancel, isLoading }) => {
               Cancel
             </button>
             <button type="submit" className="restock-btn" disabled={isLoading}>
-              {isLoading ? 'Restocking...' : 'Update Stock'}
+              {isLoading ? 'Restocking...' : `Add ${additionalQuantity} Units`}
             </button>
           </div>
         </form>

@@ -20,23 +20,17 @@ const Cart = ({ inline = false }) => {
 
   const handleBuy = async () => {
     try {
-      // Update quantities in backend for each cart item
+      // Update quantities in backend for each cart item using purchase endpoint
       for (const item of cartItems) {
         const currentSweet = item.sweet;
-        const newQuantity = currentSweet.quantity - item.quantity;
         
-        if (newQuantity < 0) {
+        if (item.quantity > currentSweet.quantity) {
           alert(`Not enough stock for ${currentSweet.name}. Available: ${currentSweet.quantity}, Requested: ${item.quantity}`);
           return;
         }
         
-        // Update sweet quantity in backend
-        await sweetService.updateSweet(currentSweet.id, {
-          name: currentSweet.name,
-          category: currentSweet.category.name,
-          price: currentSweet.price,
-          quantity: newQuantity
-        });
+        // Use the new purchase endpoint
+        await sweetService.purchaseSweet(currentSweet.id, item.quantity);
       }
       
       // Clear cart and show success message

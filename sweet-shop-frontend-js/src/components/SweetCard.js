@@ -3,13 +3,13 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './SweetCard.css';
 
-const SweetCard = ({ sweet, onEdit, onDelete, onRestock, onAdd }) => {
+const SweetCard = ({ sweet, onEdit, onDelete, onRestock, onAdd, onUpdate }) => {
   const { addToCart } = useCart();
   const { isAuthenticated, user } = useAuth();
 
   const isAdmin = user?.role === 'ADMIN';
 
-  const handlePurchase = () => {
+  const handleAddToCart = () => {
     if (!isAuthenticated) {
       alert('Please login to add items to cart');
       return;
@@ -47,13 +47,24 @@ const SweetCard = ({ sweet, onEdit, onDelete, onRestock, onAdd }) => {
         </div>
         
         <div className="card-actions">
-          <button 
-            className="purchase-btn"
-            onClick={handlePurchase}
-            disabled={sweet.quantity === 0}
-          >
-            {sweet.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-          </button>
+          {isAuthenticated && (
+            <button 
+              className="cart-btn"
+              onClick={handleAddToCart}
+              disabled={sweet.quantity === 0}
+            >
+              {sweet.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+            </button>
+          )}
+          
+          {!isAuthenticated && (
+            <button 
+              className="login-prompt-btn"
+              onClick={() => alert('Please login to purchase items')}
+            >
+              Login to Purchase
+            </button>
+          )}
           
           {isAuthenticated && (
             <div className="user-actions">

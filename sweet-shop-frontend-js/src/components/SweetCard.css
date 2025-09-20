@@ -159,3 +159,85 @@
   color: white;
   transform: translateY(-1px);
 }
+
+/* Purchase Section Styles */
+.purchase-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-selector label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.quantity-selector input {
+  width: 60px;
+  padding: 0.25rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.purchase-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.purchase-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.purchase-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.cart-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.cart-btn:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.cart-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.login-prompt-btn {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.login-prompt-btn:hover {
+  background-color: #e0a800;
+}

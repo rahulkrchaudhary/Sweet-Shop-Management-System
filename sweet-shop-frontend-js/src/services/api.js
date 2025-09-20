@@ -77,22 +77,13 @@ export const sweetService = {
     await api.delete(`/sweets/${id}`);
   },
 
+  purchaseSweet: async (id, quantity = 1) => {
+    const response = await api.post(`/sweets/${id}/purchase`, { quantity });
+    return response.data;
+  },
+
   restockSweet: async (id, quantity) => {
-    // Get current sweet data first
-    const currentSweet = await api.get(`/sweets`);
-    const sweet = currentSweet.data.find((s) => s.id === id);
-    
-    if (!sweet) throw new Error('Sweet not found');
-    
-    // Update with new quantity
-    const updateData = {
-      name: sweet.name,
-      category: sweet.category.name,
-      price: sweet.price,
-      quantity: quantity
-    };
-    
-    const response = await api.put(`/sweets/${id}`, updateData);
+    const response = await api.post(`/sweets/${id}/restock`, { quantity });
     return response.data;
   }
 };

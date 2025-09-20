@@ -369,6 +369,7 @@ const SweetsPage = () => {
                     onAdd={isAuthenticated ? handleAddSweet : undefined}
                     onDelete={isAdmin ? handleDeleteSweet : undefined}
                     onRestock={isAdmin ? handleRestockSweet : undefined}
+                    onUpdate={loadSweets}
                   />
                 ))}
               </div>
