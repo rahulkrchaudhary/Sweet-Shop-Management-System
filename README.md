@@ -15,8 +15,6 @@ A full-stack web application for managing a sweet shop with features for custome
 - [API Endpoints](#api-endpoints)
 - [Screenshots](#screenshots)
 - [My AI Usage](#my-ai-usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## 🎯 Overview
 
@@ -270,31 +268,31 @@ POST /api/sweets/1/purchase
 ## 📸 Screenshots
 
 ### Home Page
-![Home Page](https://via.placeholder.com/800x500/4ECDC4/FFFFFF?text=Home+Page+-+Login+%26+Registration)
+![Home Page]
 <img width="1920" height="1046" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/ff8b76c9-948f-4927-883d-a6882635a942" />
-
 
 *The landing page where users can login or register for new accounts*
 
 ### Sweet Catalog
-![Sweet Catalog](https://via.placeholder.com/800x500/45B7D1/FFFFFF?text=Sweet+Catalog+-+Browse+%26+Filter)
+![Sweet Catalog]
+<img width="1920" height="1060" alt="Screenshot (325)" src="https://github.com/user-attachments/assets/3843ad0b-4b39-472c-9cb1-a9625ba8afa6" />
 
 *Main shopping interface with search, filters, and product cards*
 
 ### Shopping Cart
-![Shopping Cart](https://via.placeholder.com/800x500/F39C12/FFFFFF?text=Shopping+Cart+-+Review+%26+Checkout)
+![Shopping Cart]
+<img width="1920" height="1044" alt="Screenshot (326)" src="https://github.com/user-attachments/assets/d1854bea-329d-4da6-81be-fb12849def6b" />
 
 *Shopping cart with quantity management and checkout functionality*
 
 ### Admin Dashboard
-![Admin Dashboard](https://via.placeholder.com/800x500/E74C3C/FFFFFF?text=Admin+Dashboard+-+Inventory+Management)
+![Admin Dashboard]
+<img width="1920" height="1060" alt="Screenshot (327)" src="https://github.com/user-attachments/assets/96304c0a-cf9d-42a4-be32-8c28c776ab25" />
 
 *Administrative interface for managing products and inventory*
 
-### Mobile Responsive
-![Mobile View](https://via.placeholder.com/400x700/9B59B6/FFFFFF?text=Mobile+Responsive+Design)
-
-*Fully responsive design that works on all device sizes*
+### Vodeo Link
+[Project Demo](https://drive.google.com/file/d/167vqyRTu-d18gvKlGVViSQqcCWFI9OBu/view?usp=sharing)
 
 ## 🤖 My AI Usage
 
