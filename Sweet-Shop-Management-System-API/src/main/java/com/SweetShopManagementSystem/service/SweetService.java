@@ -12,4 +12,8 @@ public interface SweetService {
     List<Sweet> searchSweets(String name, String category, Double minPrice, Double maxPrice);
     Sweet updateSweet(Long id, SweetRequest sweetRequest);
     void deleteSweet(Long id);
+    
+    // New inventory methods
+    Sweet purchaseSweet(Long id, int quantity);
+    Sweet restockSweet(Long id, int quantity);
 }

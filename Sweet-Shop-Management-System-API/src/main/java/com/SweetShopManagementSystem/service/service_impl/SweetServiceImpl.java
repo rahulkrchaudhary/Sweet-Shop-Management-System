@@ -1,6 +1,8 @@
 package com.SweetShopManagementSystem.service.service_impl;
 
 import com.SweetShopManagementSystem.dto.SweetRequest;
+import com.SweetShopManagementSystem.exception.InsufficientQuantityException;
+import com.SweetShopManagementSystem.exception.SweetNotFoundException;
 import com.SweetShopManagementSystem.model.Category;
 import com.SweetShopManagementSystem.model.Sweet;
 import com.SweetShopManagementSystem.repository.CategoryRepository;
@@ -46,14 +48,6 @@ public class SweetServiceImpl implements SweetService {
         return sweetRepository.findAll();
     }
 
-//    @Override
-//    public List<Sweet> searchSweets(String name, Category category, double minPrice, double maxPrice) {
-//        if (name != null) return sweetRepository.findByNameContainingIgnoreCase(name);
-//        if (category != null) return sweetRepository.findByCategory(category);
-//        if ((Double)minPrice != null && (Double)maxPrice != null) return sweetRepository.findByPriceBetween(minPrice, maxPrice);
-//        return sweetRepository.findAll();
-//    }
-
     @Override
     public List<Sweet> searchSweets(String name, String categoryName, Double minPrice, Double maxPrice) {
         Category searchCategory = null;
@@ -89,12 +83,42 @@ public class SweetServiceImpl implements SweetService {
 
         existing.setPrice(sweetRequest.getPrice());
         existing.setQuantity(sweetRequest.getQuantity());
-//        existing.setDescription(sweet.getDescription());
         return sweetRepository.save(existing);
     }
 
     @Override
     public void deleteSweet(Long id) {
         sweetRepository.deleteById(id);
+    }
+
+    @Override
+    public Sweet purchaseSweet(Long id, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Purchase quantity must be greater than 0");
+        }
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new SweetNotFoundException("Sweet not found with id: " + id));
+
+        if (sweet.getQuantity() < quantity) {
+            throw new InsufficientQuantityException(
+                "Insufficient quantity. Available: " + sweet.getQuantity() + ", Requested: " + quantity);
+        }
+
+        sweet.setQuantity(sweet.getQuantity() - quantity);
+
+        return sweetRepository.save(sweet);
+    }
+
+    @Override
+    public Sweet restockSweet(Long id, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Restock quantity must be greater than 0");
+        }
+
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new SweetNotFoundException("Sweet not found with id: " + id));
+        sweet.setQuantity(sweet.getQuantity() + quantity);
+
+        return sweetRepository.save(sweet);
     }
 }
