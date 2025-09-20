@@ -1,5 +1,7 @@
 package com.SweetShopManagementSystem.controller;
 
+import com.SweetShopManagementSystem.dto.PurchaseRequest;
+import com.SweetShopManagementSystem.dto.RestockRequest;
 import com.SweetShopManagementSystem.dto.SweetRequest;
 import com.SweetShopManagementSystem.model.Sweet;
 import com.SweetShopManagementSystem.service.SweetService;
@@ -66,6 +68,36 @@ public class SweetController {
 
         sweetService.deleteSweet(id);
         return ResponseEntity.noContent().build(); // 204
+    }
+
+    @PostMapping("/{id}/purchase")
+    public ResponseEntity<Sweet> purchaseSweet(
+            @PathVariable Long id,
+            @RequestBody(required = false) PurchaseRequest purchaseRequest) {
+        
+        int quantity = (purchaseRequest != null) ? purchaseRequest.getQuantity() : 1;
+        Sweet updatedSweet = sweetService.purchaseSweet(id, quantity);
+        return ResponseEntity.ok(updatedSweet);
+    }
+
+    @PostMapping("/{id}/restock")
+    public ResponseEntity<Sweet> restockSweet(
+            @PathVariable Long id,
+            @RequestBody RestockRequest restockRequest) {
+        
+        // Check if user is admin
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = false;
+        if (auth != null && auth.getAuthorities() != null) {
+            isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ADMIN"));
+        }
+        if (!isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Sweet updatedSweet = sweetService.restockSweet(id, restockRequest.getQuantity());
+        return ResponseEntity.ok(updatedSweet);
     }
 }
 
