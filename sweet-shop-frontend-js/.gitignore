@@ -10,6 +10,10 @@ node_modules/
 /.pnp
 .pnp.js
 
+# Cache directories
+node_modules/.cache/
+.cache/
+
 # Testing
 /coverage
 
